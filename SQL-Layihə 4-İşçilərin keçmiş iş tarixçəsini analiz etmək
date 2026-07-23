@@ -1,0 +1,18 @@
+Project: Employee Job History Analysis
+
+Məqsəd:
+İşçilərin keçmiş iş tarixçəsini analiz etmək, işlədikləri departamentləri və həmin departamentdə neçə il, neçə ay çalışdıqlarını göstərmək.
+
+SELECT
+    e.first_name,
+    e.last_name,
+    j.start_date,
+    j.end_date,
+    d.department_name,
+    TRUNC(MONTHS_BETWEEN(j.end_date, j.start_date) / 12) AS il,
+    MOD(TRUNC(MONTHS_BETWEEN(j.end_date, j.start_date)), 12) AS ay
+FROM employees e
+LEFT JOIN job_history j
+    ON e.employee_id = j.employee_id
+LEFT JOIN departments d
+    ON j.department_id = d.department_id;
