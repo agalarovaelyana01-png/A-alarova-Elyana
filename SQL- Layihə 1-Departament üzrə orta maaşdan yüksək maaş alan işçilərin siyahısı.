@@ -1,0 +1,26 @@
+Layihə 1 – Department Salary Analysis
+Məqsəd
+
+Departament üzrə orta maaşı hesablayıb, orta maaşdan yüksək maaş alan işçiləri müəyyən etmək.
+
+İstifadə olunan SQL mövzuları
+JOIN
+GROUP BY
+AVG()
+Subquery
+SELECT e.first_name,
+       e.last_name,
+       d.department_name,
+       e.salary,
+       a.avg_salary
+FROM employees e
+JOIN departments d
+ON e.department_id = d.department_id
+JOIN (
+    SELECT department_id,
+           AVG(salary) AS avg_salary
+    FROM employees
+    GROUP BY department_id
+) a
+ON e.department_id = a.department_id
+WHERE e.salary > a.avg_salary;
