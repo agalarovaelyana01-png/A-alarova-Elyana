@@ -1,0 +1,22 @@
+Layihə 3 – Salary Trend Analysis
+Məqsəd
+
+İşçilərin işə qəbul tarixinə görə əvvəlki əməkdaşın maaşı ilə müqayisə aparmaq.
+
+İstifadə olunan SQL mövzuları
+LAG()
+Window Functions
+ORDER BY
+SELECT first_name,
+       last_name,
+       hire_date,
+       salary,
+       LAG(salary) OVER (ORDER BY hire_date) AS previous_salary,
+       salary - LAG(salary) OVER (ORDER BY hire_date) AS salary_difference,
+       CASE
+           WHEN salary > LAG(salary) OVER (ORDER BY hire_date) THEN 'Artım'
+           WHEN salary < LAG(salary) OVER (ORDER BY hire_date) THEN 'Azalma'
+           ELSE 'Dəyişiklik yoxdur'
+       END AS status
+FROM employees
+ORDER BY hire_date;
