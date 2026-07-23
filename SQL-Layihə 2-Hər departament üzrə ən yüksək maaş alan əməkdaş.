@@ -1,0 +1,30 @@
+Layihə 2 – Top Employee by Department
+Məqsəd
+
+Hər departamentdə ən yüksək maaş alan işçini tapmaq.
+
+İstifadə olunan SQL mövzuları
+WITH (CTE)
+ROW_NUMBER()
+PARTITION BY
+JOIN
+WITH a AS (
+    SELECT first_name,
+           last_name,
+           department_id,
+           salary,
+           ROW_NUMBER() OVER (
+               PARTITION BY department_id
+               ORDER BY salary DESC
+           ) AS rn
+    FROM employees
+)
+SELECT r.first_name,
+       r.last_name,
+       d.department_name,
+       r.salary
+FROM a r
+JOIN departments d
+ON r.department_id = d.department_id
+WHERE rn = 1
+ORDER BY d.department_name;
