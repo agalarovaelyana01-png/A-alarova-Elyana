@@ -1,0 +1,24 @@
+Project: Employee Hierarchy Analysis (Self Join)
+Task 1 – Employee and Manager
+
+Goal: Hər işçinin adını və ona rəhbərlik edən menecerin adını göstərmək.
+
+SELECT
+    e.first_name,
+    e.last_name,
+    m.first_name AS manager_name,
+    m.last_name AS manager_last_name
+FROM employees e
+JOIN employees m
+    ON e.manager_id = m.employee_id;
+Task 2 – Employees Without Managers
+
+Goal: Rəhbəri olmayan işçiləri (şirkətin ən yüksək səviyyəli rəhbərlərini) tapmaq.
+
+SELECT
+    e.first_name,
+    e.last_name
+FROM employees e
+LEFT JOIN employees m
+    ON e.manager_id = m.employee_id
+WHERE e.manager_id IS NULL;
